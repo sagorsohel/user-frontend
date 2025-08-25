@@ -5,6 +5,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   const links = [
+    { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
     { to: "/products", label: "Products", icon: <LayoutDashboard size={18} /> },
     { to: "/theme", label: "Theme Control", icon: <Palette size={18} /> },
   ];

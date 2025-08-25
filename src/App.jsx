@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import ThemeController from "./pages/ThemeControlPage";
 import Layout from "./layout/layout";
 import SidebarLayout from "./layout/SidebarLayout";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
 
         {/* Sidebar layout for dashboard pages */}
         <Route element={<SidebarLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/products" element={<TenantDashboard />} />
           <Route path="/theme" element={<ThemeController />} />
         </Route>
