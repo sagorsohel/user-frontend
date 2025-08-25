@@ -11,17 +11,18 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Wrap all pages inside Layout */}
+        {/* Layout only for Home & Login */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<TenantLogin />} />
-          <Route element={<SidebarLayout />}>
-            <Route path="/dashboard" element={<TenantDashboard />} />
-            <Route path="/theme" element={<ThemeController />} />
-          </Route>
+        </Route>
+
+        {/* Sidebar layout for dashboard pages */}
+        <Route element={<SidebarLayout />}>
+          <Route path="/products" element={<TenantDashboard />} />
+          <Route path="/theme" element={<ThemeController />} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
 }
-

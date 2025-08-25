@@ -37,11 +37,11 @@ export default function Navbar() {
     fetchActiveTheme();
   }, [token]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("tenantToken");
-    localStorage.removeItem("tenantId");
-    navigate("/");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("tenantToken");
+  //   localStorage.removeItem("tenantId");
+  //   navigate("/");
+  // };
 
   return (
     <nav
