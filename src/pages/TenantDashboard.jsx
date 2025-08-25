@@ -51,7 +51,7 @@ export default function TenantDashboard() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+  
       <main className="flex-1 p-6 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 
@@ -97,7 +97,7 @@ export default function TenantDashboard() {
           </>
         )}
       </main>
-      <Footer />
+    
     </div>
   );
 }
