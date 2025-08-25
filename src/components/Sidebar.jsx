@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { LayoutDashboard, Palette, Home, LogOut } from "lucide-react";
 
 export default function Sidebar() {
@@ -12,10 +13,18 @@ export default function Sidebar() {
 
   const subdomain = window.location.hostname.split(".")[0];
 
+  // 🔹 Check if tenant is logged in
+  useEffect(() => {
+    const token = localStorage.getItem("tenantToken");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   const handleLogout = () => {
     localStorage.removeItem("tenantToken");
     localStorage.removeItem("tenantId");
-    navigate("/login"); // redirect to login instead of home
+    navigate("/login"); // redirect to login
   };
 
   return (
