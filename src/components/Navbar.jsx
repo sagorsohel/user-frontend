@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api"; // axios instance with baseURL
 
 export default function Navbar() {
-  const navigate = useNavigate();
   const subdomain = window.location.hostname.split(".")[0];
   const token = localStorage.getItem("tenantToken");
 
