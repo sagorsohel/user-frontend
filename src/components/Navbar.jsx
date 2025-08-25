@@ -25,6 +25,11 @@ export default function Navbar() {
           </Link>
         )}
         {token && (
+          <Link to="/theme" className="hover:text-gray-200">
+            Theme Control
+          </Link>
+        )}
+        {token && (
           <button
             onClick={handleLogout}
             className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
