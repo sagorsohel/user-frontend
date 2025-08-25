@@ -4,10 +4,12 @@ import api from "../api"; // axios instance with baseURL
 export default function ThemeController() {
   const [themes, setThemes] = useState([]);
   const [activeTheme, setActiveTheme] = useState(null);
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("tenantToken");
 
   // Load all themes & current tenant theme
   useEffect(() => {
+    setLoading(true);
     const loadThemes = async () => {
       try {
         // Get all themes
@@ -18,17 +20,21 @@ export default function ThemeController() {
         const allThemes = resThemes.data.themes;
         if (!allThemes?.length) {
           setThemes([]);
+          setLoading(false);
           return;
         }
 
         setThemes(allThemes);
 
         // Find the tenant's active theme
-        const active = allThemes.find(t => t.isActive) || allThemes[0];
+        const active = allThemes.find((t) => t.isActive) || allThemes[0];
         setActiveTheme(active);
+        setLoading(false);
       } catch (err) {
         console.error(err);
+        setLoading(false);
       }
+      setLoading(false);
     };
 
     loadThemes();
@@ -48,10 +54,10 @@ export default function ThemeController() {
       setActiveTheme(updatedTheme);
 
       // Update themes array to reflect isActive
-      setThemes(prev =>
-        prev.map(t => ({
+      setThemes((prev) =>
+        prev.map((t) => ({
           ...t,
-          isActive: t._id === updatedTheme._id
+          isActive: t._id === updatedTheme._id,
         }))
       );
     } catch (err) {
@@ -59,6 +65,13 @@ export default function ThemeController() {
     }
   };
 
+    if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        Loading...
+      </div>
+    );
+  }
   if (!themes.length) {
     return <p className="p-6 text-gray-500">No themes available</p>;
   }
@@ -67,11 +80,8 @@ export default function ThemeController() {
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Select Your Theme</h2>
       <div className="flex flex-wrap gap-4 mb-6">
-        {themes.map(theme => (
-          <div
-            key={theme._id}
-            className="p-4 border rounded w-60 relative"
-          >
+        {themes.map((theme) => (
+          <div key={theme._id} className="p-4 border rounded w-60 relative">
             <p className="font-semibold text-lg">{theme.name}</p>
 
             {/* Show theme colors */}
