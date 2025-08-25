@@ -18,11 +18,7 @@ export default function Navbar() {
         <Link to="/" className="hover:text-gray-200">
           Home
         </Link>
-        {!token && (
-          <Link to="/login" className="hover:text-gray-200">
-            Login
-          </Link>
-        )}
+       
         {token && (
           <Link to="/dashboard" className="hover:text-gray-200">
             Dashboard
