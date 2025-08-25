@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import api from "../api"; // axios instance with baseURL
 
 export default function Home() {
-  const subdomain = window.location.hostname.split(".")[0];
+  const hostname = window.location.hostname; // e.g. sohel.user-frontend-lemon.vercel.app
+  const tenantSubdomain = hostname.split(".")[0]; // 'sohel', 'sagor', etc.
+
   const [tenant, setTenant] = useState(null);
   const [tenantId, setTenantId] = useState(null);
   const [products, setProducts] = useState([]);
   const [theme, setTheme] = useState(null);
 
-  // 🔹 Fetch Tenant Info
+  // Fetch tenant info
   useEffect(() => {
     const fetchTenant = async () => {
       try {
-        const { data } = await api.get(`/tenant/${subdomain}`);
+        const { data } = await api.get(`/tenant/${tenantSubdomain}`);
         if (data.success) {
           setTenant(data.tenant);
           setTenantId(data.tenant?._id);
@@ -22,33 +24,28 @@ export default function Home() {
       }
     };
     fetchTenant();
-  }, [subdomain]);
+  }, [tenantSubdomain]);
 
-  // 🔹 Fetch Theme
+  // Fetch theme
   useEffect(() => {
     const fetchTheme = async () => {
       try {
-        const { data } = await api.get(`/theme/public/${subdomain}`);
-        if (data.success) {
-          setTheme(data.theme);
-        }
+        const { data } = await api.get(`/theme/public/${tenantSubdomain}`);
+        if (data.success) setTheme(data.theme);
       } catch (err) {
         console.error(err);
       }
     };
     fetchTheme();
-  }, [subdomain]);
+  }, [tenantSubdomain]);
 
-  // 🔹 Fetch Products
+  // Fetch products
   useEffect(() => {
     if (!tenantId) return;
-
     const fetchProducts = async () => {
       try {
         const { data } = await api.get(`/products/public/${tenantId}`);
-        if (data.success) {
-          setProducts(data.products);
-        }
+        if (data.success) setProducts(data.products);
       } catch (err) {
         console.error(err);
       }
@@ -56,30 +53,25 @@ export default function Home() {
     fetchProducts();
   }, [tenantId]);
 
-  // Determine card classes dynamically
+  // Theme styles
   const cardClass = theme?.cardStyle === "rounded" ? "rounded-lg" : "rounded-none";
   const productGridClass =
     theme?.productView === "list"
       ? "flex flex-col gap-4"
       : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6";
-
   const cardBg = theme?.colors?.secondary || "white";
   const cardText = theme?.colors?.primary || "black";
 
   return (
     <div className="flex flex-col min-h-screen">
-      <main
-        className="flex-1 flex flex-col items-center justify-center p-6"
-        // style={{ backgroundColor: theme?.colors?.navbar || "#e0f2fe" }}
-      >
+      <main className="flex-1 flex flex-col items-center justify-center p-6">
         <h1 className="text-5xl font-bold mb-4" style={{ color: cardText }}>
-          {tenant ? `${tenant.name} Shop` : `${subdomain}'s Online Store`}
+          {tenant ? `${tenant.name} Shop` : `${tenantSubdomain}'s Online Store`}
         </h1>
         <p className="text-lg mb-6 text-center" style={{ color: cardText }}>
           Welcome to your online store! Manage products, showcase your shop, and grow your business.
         </p>
 
-        {/* Products Section */}
         <div className="mt-10 w-full max-w-4xl">
           <h2 className="text-2xl font-semibold mb-4" style={{ color: cardText }}>
             Products
